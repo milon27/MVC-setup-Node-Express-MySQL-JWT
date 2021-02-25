@@ -24,6 +24,7 @@ ___
     $ git clone https://github.com/milon27/MVC-setup-Node-Express-MySQL-JWT .
     $ git checkout -b features_a
     $ npm install
+    $ create .env file (use .env.sample for reference)
     $ npm run dev (run by nodemon port 2727)
     $ npm start (run by node port 2727)
     
