@@ -1,6 +1,5 @@
-const DB_Define = require("../utils/DB_Define");
-const Define = require("../utils/Define");
-const Model = require("./Model");
+const DB_Define = require("../../utils/DB_Define");
+const Model = require("../Model");
 
 class DataModel extends Model {
 

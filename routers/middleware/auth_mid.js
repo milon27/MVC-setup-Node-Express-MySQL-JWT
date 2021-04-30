@@ -4,7 +4,7 @@
 
 const Response = require('../../models/Response');
 const Helper = require('../../utils/Helper');
-const auth_cookie = (req, res, next) => {
+const auth_mid = (req, res, next) => {
 
     try {
         const token = req.cookies.token
@@ -22,4 +22,4 @@ const auth_cookie = (req, res, next) => {
 
 }
 
-module.exports = auth_cookie;
+module.exports = auth_mid;

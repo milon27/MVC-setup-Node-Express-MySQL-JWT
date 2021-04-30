@@ -2,11 +2,11 @@
  * @design by milon27
  */
 const bcryptjs = require('bcryptjs')
-const AuthModel = require('../models/AuthModel')
-const Response = require('../models/Response')
-const DB_Define = require('../utils/DB_Define')
-const Define = require('../utils/Define')
-const Helper = require('../utils/Helper')
+const AuthModel = require('../../models/auth/AuthModel')
+const Response = require('../../models/Response')
+const DB_Define = require('../../utils/DB_Define')
+const Define = require('../../utils/Define')
+const Helper = require('../../utils/Helper')
 
 const AuthController = {
     /**
@@ -43,22 +43,15 @@ const AuthController = {
                     res.send(response);
                 } else {
                     //get token and set into cookie
-                    const expireAt = Helper.getExpireDay(Define.TOKEN_EXPIRE_DAY)
-                    const token = Helper.getJWTtoken(email, expireAt)
-                    //send token in http cookie
-                    //new Date(Date.now() + 900000)
-                    res.cookie(Define.TOKEN, token, {
-                        httpOnly: true,
-                        expires: new Date(expireAt)
-                    })
+                    const token = Helper.getJWTtoken(email)
+                    //send token in http cookie with no expire
+                    res.cookie(Define.TOKEN, token, Define.SESSION_COOKIE_OPTION)
                     delete user.pass
                     user['id'] = results.insertId
                     user['token'] = token
-
                     res.status(200).json(new Response(false, "user created successfully", user))
                 }
             })//end db
-
         } catch (e) {
             let response = new Response(true, e.message, e);
             res.send(response);
@@ -72,7 +65,6 @@ const AuthController = {
             if (!email || !pass) {
                 throw new Error("Enter email,password")
             }
-
             //check user is available or not in db
             new AuthModel().getUserByEmail(DB_Define.USERS_TABLE, email, async (err, results) => {
                 try {
@@ -87,18 +79,10 @@ const AuthController = {
                         if (!ckPass) {
                             throw new Error("Wrong email or password")
                         }
-
                         //get token and set into cookie
-
-                        const expireAt = Helper.getExpireDay(Define.TOKEN_EXPIRE_DAY)
-                        const token = Helper.getJWTtoken(email, expireAt)
-                        //send token in http cookie
-                        //new Date(Date.now() + 900000)
-                        res.cookie(Define.TOKEN, token, {
-                            httpOnly: true,
-                            expires: new Date(expireAt)
-                        })
-
+                        const token = Helper.getJWTtoken(email)
+                        //send token in http cookie 
+                        res.cookie(Define.TOKEN, token, Define.SESSION_COOKIE_OPTION)
                         delete user.pass
                         user['token'] = token
                         res.status(200).json(new Response(false, "user logged in successfully", user))
@@ -114,10 +98,7 @@ const AuthController = {
         }
     },//login
     logout: (req, res) => {
-        res.cookie(Define.TOKEN, "", {
-            httpOnly: true,
-            expires: new Date(0)
-        })
+        res.cookie(Define.TOKEN, "", Define.LOGOUT_COOKIE_OPTION)
         res.status(200).json(new Response(false, "user logged out", {}))
     },//logout
     isLoggedIn: (req, res) => {
@@ -128,14 +109,10 @@ const AuthController = {
             }
             //token validation
             Helper.verifyJWTtoken(token)
-
             res.send(true)// logged in
         } catch (e) {
             //remove the old/expire token
-            res.cookie("token", "", {
-                httpOnly: true,
-                expires: new Date(0)
-            })
+            res.cookie("token", "", Define.LOGOUT_COOKIE_OPTION)
             res.send(false)//not logged in
         }
     },//isLoggedIn

@@ -3,8 +3,8 @@
  */
 const express = require('express')
 const router = express.Router()
-const DataController = require('../controllers/DataController')
-const auth_cookie = require('./middleware/auth_cookie_token')
+const DataController = require('../../controllers/data/DataController')
+const auth_mid = require('../middleware/auth_mid')
 
 /**
  * @private route
@@ -13,7 +13,7 @@ const auth_cookie = require('./middleware/auth_cookie_token')
  * @endpoint http://localhost:2727/data/new-data
  * @example same
  */
-router.post('/new-data', auth_cookie, DataController.newData)
+router.post('/new-data', auth_mid, DataController.newData)
 
 
 /**

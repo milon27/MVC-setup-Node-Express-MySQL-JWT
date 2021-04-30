@@ -10,7 +10,11 @@ const Helper = {
     },
     //@return token:String
     getJWTtoken: (email, expires) => {
-        return jwt.sign({ email: email }, process.env.ACCESS_SECRET, { expiresIn: expires });
+        if (expires) {
+            return jwt.sign({ email: email }, process.env.ACCESS_SECRET, { expiresIn: expires });
+        } else {
+            return jwt.sign({ email: email }, process.env.ACCESS_SECRET);
+        }
     },
     //@return email:String || throw Error
     verifyJWTtoken: (token) => {

@@ -1,4 +1,4 @@
-const Model = require("./Model");
+const Model = require("../Model");
 
 class AuthModel extends Model {
     getUserByEmail = async (table, email, callback) => {

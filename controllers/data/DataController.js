@@ -2,9 +2,9 @@
  * @design by milon27
  */
 
-const DataModel = require("../models/DataModel")
-const Response = require('../models/Response')
-const DB_Define = require("../utils/DB_Define")
+const DataModel = require("../../models/data/DataModel")
+const Response = require('../../models/Response')
+const DB_Define = require("../../utils/DB_Define")
 
 const DataController = {
     /**

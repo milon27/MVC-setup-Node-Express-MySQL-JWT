@@ -1,8 +1,8 @@
 /**
  * @design by milon27
  */
-const DbModel = require('../models/DbModel')
-const Response = require('../models/Response')
+const DbModel = require('../../models/db/DbModel')
+const Response = require('../../models/Response')
 
 
 const DbController = {
