@@ -31,7 +31,7 @@ app.use(csrf_mid.csrfToken);
  * @routers
  */
 app.get('/', (req, res) => {
-    res.send('home')
+    res.send('home welcome to m27lab...')
 })
 
 //description use for all type DB tables @author milon27
